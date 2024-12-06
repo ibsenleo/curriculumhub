@@ -1,11 +1,12 @@
+import { useCallback } from 'react'
+import { useMemo } from 'react'
 import { useState } from 'react'
 
 export const useExperiences = ({ experienceList = [] }) => {
     const [showExpForm, setShowExpForm] = useState(false)
-    const [tempIndex, setTempIndex] = useState(0)
     const [experiences, setExperiences] = useState(experienceList)
 
-    const onAddExperience = (value) => {
+    const setShowExperienceForm = (value) => {
         setShowExpForm(value);
     }
 
@@ -15,29 +16,42 @@ export const useExperiences = ({ experienceList = [] }) => {
         setExperiences(updatedExperiences);
     };
 
-    const onSubmitExperience = (formValue) => {
+    const onEditExperience = useCallback((updatedExp) => {
+        const updatedExperiences = experiences.map((e) =>
+            e.id === updatedExp.id ? { ...e, ...updatedExp } : e
+        );
+        setExperiences(updatedExperiences);
+    }, [experiences]);
 
-        const exp = {
-            id: "temp" + tempIndex,
-            jobTitle: formValue.jobTitle,
-            companyName: formValue.companyName,
-            startDate: formValue.startDate,
-            endDate: formValue.endDate,
-            jobDescription: formValue.jobDescription
-        }
+    const onSubmitExperience = (experienceData) => {
+        console.log(experienceData.id);
+        (experienceData.id) 
+            ? onEditExperience(experienceData)
+            : onAddExperience(experienceData)
 
-        setExperiences([...experiences, exp]);
-        setTempIndex(tempIndex + 1)
         setShowExpForm(false);
     }
+
+    const onAddExperience = (exp) => {
+        setExperiences([...experiences, { ...exp, id: `temp-${Date.now()}` }]);
+    };
+
+    const sortedExperiences = useMemo(() => {
+        return [...experiences].sort((a, b) => {
+            const dateA = new Date(a.startDate);
+            const dateB = new Date(b.startDate);
+            return dateB - dateA;
+        });
+    }, [experiences]);
 
 
 
     return {
-        onAddExperience,
+        setShowExperienceForm,
         onDeleteExperience,
+        onEditExperience,
         onSubmitExperience,
         showExpForm,
-        experiences
+        experiences: sortedExperiences
     }
 }

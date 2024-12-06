@@ -16,8 +16,8 @@ export const AuthLayout = ({children}) => {
                 width={40}
             />
             <div className="flex flex-col">
-                <p className="text-md">Ruled App</p>
-                <p className="text-small text-default-500">ruled.app</p>
+                <p className="text-md">CurriculumHub</p>
+                {/* <p className="text-small text-default-500">Your Hub</p> */}
             </div>
             <p className="text-2xl font-bold text-end inline-flex grow justify-end pr-2">
                 {/* <Button isIconOnly disabled>

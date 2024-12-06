@@ -20,11 +20,13 @@ export const CurriculumTable = () => {
         const cellValue = resumee[columnKey];
         switch (columnKey) {
             case "author":
+                const imageUrl = cellValue.avatar?.url ? `http://localhost:1337${cellValue.avatar.url}` : null
+                const userName = cellValue.first_name ? cellValue.first_name + " " + cellValue.last_name : cellValue.email
                 return (
                     <User
-                        avatarProps={{ radius: "xl", src: `http://localhost:1337${cellValue.avatar.url}` }}
+                        avatarProps={{ radius: "xl", src: imageUrl}}
                         description={cellValue.email}
-                        name={cellValue.first_name + " " + cellValue.last_name}
+                        name={userName}
                     >
                         {cellValue.id}
                     </User>

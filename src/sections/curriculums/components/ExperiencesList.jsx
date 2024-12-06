@@ -1,23 +1,16 @@
-import { PlusIcon } from '@heroicons/react/16/solid';
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/16/solid';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { Button, Chip, DatePicker, Input, Textarea } from '@nextui-org/react';
 import React from 'react';
 import { useForm } from '../../../hooks/useForm';
 import { useExperiences } from '../hooks/useExperiences';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
-const exp = [{
-    id: 6,
-    jobTitle: "Desarrollador Backend",
-    companyName: "Empresa Ejemplo S.A.",
-    startDate: "2021-01-01",
-    endDate: "2024-01-01",
-    jobDescription: "En mi rol como Ingeniero de Software Senior en Tech Solutions Corp, fui responsable de liderar un equipo de desarrolladores enfocado en la construcción de aplicaciones web escalables utilizando tecnologías como React, Node.js, y AWS. Durante mi tiempo en la empresa, trabajé estrechamente con diseñadores y gestores de producto para definir y cumplir con los requisitos del cliente, garantizando una experiencia de usuario óptima y una arquitectura robusta. Implementé prácticas de desarrollo ágil, incluyendo integración continua y despliegue continuo (CI/CD), lo cual mejoró significativamente la eficiencia del equipo. Además, fui mentor de desarrolladores junior, ayudándoles a mejorar sus habilidades técnicas y fomentando una cultura de colaboración y mejora continua dentro del equipo. Entre mis logros más destacados se incluye la reestructuración de la aplicación principal, que resultó en una reducción del tiempo de carga en un 40% y una mejora notable en la satisfacción del cliente."
-}]
 export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
 
-
-    const { onInputChange, onResetForm, jobTitle, companyName, endDate, startDate, jobDescription } = useForm({
+    const [editId, setEditId] = useState(null)
+    const { onInputChange, onResetForm, setValue, jobTitle, companyName, endDate, startDate, jobDescription, setFormData } = useForm({
         jobTitle: "",
         companyName: "",
         startDate: today(getLocalTimeZone()).toString(),
@@ -25,15 +18,17 @@ export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
         jobDescription: ""
     })
 
-    const { onAddExperience,
+    const { setShowExperienceForm,
         onDeleteExperience,
+        onEditExperience,
         onSubmitExperience,
         showExpForm,
-        experiences } = useExperiences(exp);
+        experiences } = useExperiences([]);
 
     const onSubmitForm = (e) => {
         e.preventDefault();
         onSubmitExperience({
+            id: editId,
             jobTitle: jobTitle,
             companyName: companyName,
             startDate: startDate,
@@ -41,6 +36,38 @@ export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
             jobDescription: jobDescription
         })
         onResetForm()
+        setEditId(null)
+    }
+
+    const onAddExperieceButton = ()=> {
+        setEditId(null)
+        onResetForm()
+        setShowExperienceForm(true)
+    }
+
+    const onEditExperienceButton = (experience) => {
+        setEditId(experience.id)
+        setFormData({
+            companyName: experience.companyName,
+            startDate: experience.startDate,
+            endDate: experience.endDate,
+            jobDescription: experience.jobDescription,
+            jobTitle: experience.jobTitle,
+        });
+        // setValue("companyName", experience.companyName)
+        // setValue("startDate", experience.startDate)
+        // setValue("endDate", experience.endDate)
+        // setValue("jobDescription", experience.jobDescription)
+        // setValue("jobTitle", experience.jobTitle)
+
+        setShowExperienceForm(true)
+        
+    }
+
+    const onCancelForm = () => {
+        onResetForm()
+        setEditId(null)
+        setShowExperienceForm(false)
     }
 
     useEffect(() => {
@@ -53,7 +80,7 @@ export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
                 <div className='text-xl'>Experiencies</div>
                 <div className='flex  justify-end'>
                     <Button
-                        onClick={() => onAddExperience(true)}
+                        onClick={onAddExperieceButton}
                         endContent={<PlusIcon  className="size-6 "/>}
                         isIconOnly
                         >
@@ -84,6 +111,7 @@ export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
                                     onChange={onInputChange}
 
                                 />
+                                
                                 <DatePicker
                                     showMonthAndYearPickers
                                     variant='faded'
@@ -93,6 +121,7 @@ export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
                                     onChange={(date) => onInputChange({ name: 'startDate', value: date.toString() })}
                                 // onChange={(date) => onInputChange({ target: { name: 'startDate', value: date } })}
                                 />
+
                                 <DatePicker
                                     showMonthAndYearPickers
                                     variant='faded'
@@ -111,8 +140,8 @@ export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
                                     onChange={onInputChange}
                                 />
                                 <div className='flex justify-end col-span-2 gap-2'>
-                                    <Button onClick={() => onAddExperience(false)} color='danger'>Cancel</Button>
-                                    <Button type='submit'>Add</Button>
+                                    <Button onClick={onCancelForm} color='danger'>Cancel</Button>
+                                    <Button type='submit' color='success'>{editId ? "Save" : "Add New"}</Button>
                                 </div>
 
 
@@ -125,10 +154,23 @@ export const ExperiencesList = ({ onExperienceChange = () => { } }) => {
             {experiences.length == 0 && (<div className='flex justify-center text-2xl dark:text-zinc-600 text-zinc-400 font-thin m-10'>No experiences yet</div>)}
 
             {experiences.map((experience, k) => (
-                <div className='dark:border-zinc-700 border-zinc-300 border dark:bg-zinc-900 bg-zinc-100 rounded-lg shadow-lg my-3 p-3 text-sm animate-fade' key={experience.id}>
+                <div className={`${editId == experience.id ? 'dark:bg-zinc-700 bg-zinc-300' : 'dark:bg-zinc-900 bg-zinc-100'} dark:border-zinc-700 border-zinc-300 border  rounded-lg shadow-lg my-3 p-3 text-sm animate-shake animate-duration-500 animate-once`} key={experience.id}>
                     <div className='grid grid-cols-2'>
                         <div>Experience {experience.id}</div>
-                        <div className='flex justify-end'><Button onClick={() => onDeleteExperience(experience.id)}>Delete</Button></div>
+                        <div className='flex justify-end gap-3'>
+                            <Button 
+                            onClick={() => onEditExperienceButton(experience)}
+                            isIconOnly
+                            radius='lg'>
+                                <PencilIcon className='size-4'/>
+                            </Button>
+                            <Button 
+                            onClick={() => onDeleteExperience(experience.id)}
+                            isIconOnly
+                            radius='lg'>
+                                <TrashIcon className='size-4' color='danger'/>
+                            </Button>
+                        </div>
                     </div>
                     <div className='text-xl'><span className='font-bold text-zinc-500'>Job title: </span>{experience.jobTitle} </div>
                     <div className='text-xl'><span className='font-bold text-zinc-500'>Company: </span>{experience.companyName} </div>

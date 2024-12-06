@@ -29,6 +29,18 @@ export const useForm = ( formData) => {
         }
     };
 
+    const setValue = (name, value) => {
+        console.log(formState)
+        setFormState((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    }
+
+    const setFormData = (newFormData) => {
+        setFormState(newFormData);
+    };
+
     const onResetForm = () => {
         setFormState(formData);
     }
@@ -39,5 +51,7 @@ export const useForm = ( formData) => {
         formState,
         onInputChange,
         onResetForm,
+        setValue,
+        setFormData,
     }
 }

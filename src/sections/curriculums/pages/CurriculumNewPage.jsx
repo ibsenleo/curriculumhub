@@ -48,20 +48,16 @@ export const CurriculumNewPage = () => {
                         label="First name"
                         name="firstname"
                         labelPlacement="outside"
-                        className='text-zinc-400'
-                        isReadOnly
-                        value={auth.firstName}
+                        value={auth.firstName || ""}
                     />
                     <Input
                         variant='faded'
                         label="Last name"
                         name="lastname"
                         labelPlacement="outside"
-                        className='text-zinc-400'
-                        isReadOnly
-                        value={auth.lastName}
+                        value={auth.lastName || ""}
                     />
-
+{/* 
                     <Input
                         variant='faded'
                         label="Avaloq Experience"
@@ -72,7 +68,7 @@ export const CurriculumNewPage = () => {
                               <span className="text-default-400 text-small">Years</span>
                             </div>
                         }
-                    />
+                    /> */}
 
                     <Input
                         variant='faded'
@@ -91,7 +87,9 @@ export const CurriculumNewPage = () => {
                     {offices.map((office,k) => (
                         <SelectItem 
                         key={office.id}
-                        startContent={<Avatar alt={office.flag+k} className="w-6 h-6" src={`https://flagcdn.com/${office.flag}.svg`}/>}
+                        startContent={<Avatar alt={office.flag+ " " +k} 
+                        className="w-6 h-6" 
+                        src={`https://flagcdn.com/${office.flag}.svg`}/>}
                         >
                             
                         {office.name}

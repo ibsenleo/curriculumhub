@@ -7,6 +7,7 @@ import { LoginPage, RegisterPage } from "../sections/auth";
 import { CurriculumsPage } from "../sections/curriculums";
 import { SettingsPage } from "../sections/settings/pages/SettingsPage";
 import { CurriculumNewPage } from "../sections/curriculums/pages/CurriculumNewPage";
+import { MicrosoftAuthCallback } from "../sections/auth/pages/MicrosoftAuthCallback";
 
 export const futures = {
     v7_relativeSplatPath: true,
@@ -28,6 +29,10 @@ export const PublicRoutes = {
         {
             path: 'register',
             element: <RegisterPage/>
+        },
+        {
+            path: 'callback',
+            element: <MicrosoftAuthCallback/>
         },
     ]
 }

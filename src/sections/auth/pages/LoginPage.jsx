@@ -7,6 +7,8 @@ import { useForm } from '../../../hooks/useForm';
 import { actionLogIn } from '../../../store/auth/thunks';
 import { authStatus } from '../../../utils/const';
 import { AuthLayout } from '../layouts/AuthLayout';
+import { MicrosoftIcon } from '../../../utils/icons';
+import { MicrosoftLoginButton } from 'react-social-login-buttons';
 
 
 export const LoginPage = () => {
@@ -39,6 +41,11 @@ export const LoginPage = () => {
         
     }
 
+    const onMicrosoftLogin = () => {
+        window.location.href = 'http://localhost:3001/auth/login';
+        return null;
+    }
+
 
     return (
 
@@ -69,6 +76,16 @@ export const LoginPage = () => {
                 </Button>
             </form>
             <Spacer y={3} />
+            <div className='flex justify-center'>
+                <span>or</span>
+            </div>
+            <Spacer y={3} />
+            
+            <div className='flex justify-center'>
+                {/* <Button onClick={onMicrosoftLogin}><MicrosoftIcon className="text-primary"/></Button> */}
+                <MicrosoftLoginButton size='50px' style={{fontSize:"15px"}} onClick={onMicrosoftLogin}>Login with Microsoft</MicrosoftLoginButton>
+            </div>
+            <Spacer y={6} />
         
             <div className="text-center">
                 <Link href='/auth/register'>

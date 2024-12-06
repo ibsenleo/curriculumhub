@@ -9,7 +9,7 @@ import { AppRouter } from './AppRouter'
 export const CurriculumHubApp = () => {
   return (
     <Provider store={store}>
-            <NextUIProvider navigate={router.navigate} useHref={useHref} >
+            <NextUIProvider navigate={router.navigate} useHref={useHref} locale='es-ES' >
                 <AppRouter />
             </NextUIProvider>
     </Provider>
