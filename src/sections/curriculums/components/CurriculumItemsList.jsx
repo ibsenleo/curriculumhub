@@ -4,11 +4,30 @@ import { useState } from 'react';
 import { cloneElement } from 'react';
 import { Button } from '@nextui-org/react';
 import { PlusIcon } from '@heroicons/react/16/solid';
+import { ConfirmBox } from '../../../common/components/ConfirmBox';
+import { useMemo } from 'react';
+import { useCallback } from 'react';
+import { useConfirmBox } from '../../../common/hooks/useConfirmBox';
 
 export const CurriculumItemsList = ({ listName,  renderItem, children }) => {
     const { curriculumData, addItem, updateItem, deleteItem } = useCurriculum();
     const [editingItem, setEditingItem] = useState(null); // Elemento que se está editando
     const [showForm, setShowForm] = useState(false)
+    
+    const {
+        isOpen: isModalOpen,
+        modalConfig,
+        openModal,
+        closeModal,
+        executeModalAction,
+    } = useConfirmBox();
+
+
+
+    const handleEdit = (item) => {
+        setEditingItem(item); // Activa el modo edición con el elemento actual
+        setShowForm(true)
+    };
 
     
     const handleSubmit = (item) => {
@@ -23,26 +42,31 @@ export const CurriculumItemsList = ({ listName,  renderItem, children }) => {
         setShowForm(false)
     };
 
-    const handleEdit = (item) => {
-        console.log(item)
-        setEditingItem(item); // Activa el modo edición con el elemento actual
-        setShowForm(true)
-    };
-
     const handleDelete = (id) => {
-        deleteItem(listName, id);
+        openModal(
+            (actionArgs) => deleteItem(listName, actionArgs),
+            'Are you sure you want to delete this item?',
+            'Delete Confirmation',
+            id
+        );
     };
 
-    const handleCancel = () => {
-        setShowForm(false)
-    }
+    const handleCancel = (isFormEmpty = true) => {
+        if (!isFormEmpty) {
+            openModal(() => setShowForm(false), 'Are you sure you want to discard the changes?', 'Discard Changes');
+        } else {
+            setShowForm(false);
+        }
+    };
 
     const onAddItemButton = () => {
         setShowForm(true)
     }
 
+
     return (
-        <div className='mb-5'>
+        <div className='mb-10 '>
+            <hr className='my-2'/>
             <div className='grid grid-flow-col items-center mb-5'>
                 <div className='text-xl'>{listName.charAt(0).toUpperCase() + listName.slice(1)}</div>
                 <div className='flex  justify-end'>
@@ -54,10 +78,22 @@ export const CurriculumItemsList = ({ listName,  renderItem, children }) => {
                         </Button>
                 </div>
             </div>
-
+            <ConfirmBox 
+             isOpen={isModalOpen}
+             onAccept={executeModalAction}
+             onCancel={closeModal}
+             message={modalConfig.message}
+             title={modalConfig.title}
+            />
         <div>
-            {(children && showForm) && cloneElement(children, {initialData: editingItem || {}, onSubmit: handleSubmit, onCancel: handleCancel} )}
+            {(children && showForm) && cloneElement(children, {
+                    initialData: editingItem || {}, 
+                    onSubmit: handleSubmit, 
+                    onCancel: handleCancel
+                } 
+            )}
         </div>
+        {curriculumData[listName].length == 0 && (<div className='flex justify-center text-2xl dark:text-zinc-600 text-zinc-400 font-thin m-10'>No {listName} yet</div>)}
         <div>
             {curriculumData[listName].map((item) =>
                 renderItem(item, handleEdit, handleDelete)

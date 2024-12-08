@@ -1,6 +1,6 @@
 import { Button, DatePicker, Input } from '@nextui-org/react'
 import React from 'react'
-import { useForm } from '../../../hooks/useForm'
+import { useForm } from '../../../../hooks/useForm'
 import { parseDate } from '@internationalized/date'
 
 export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData = {} }) => {
@@ -9,8 +9,7 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
         formState,
         onInputChange,
         onResetForm,
-        setValue,
-        setFormData,
+        isFormEmpty,
         certificationName,
         authority,
         expirationDate,
@@ -30,8 +29,8 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
     }
 
     const onCancelForm = () => {
-        onCancel()
-        onResetForm();
+        onCancel(isFormEmpty)
+        // onResetForm();
     }
 
 
@@ -41,7 +40,7 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
                 <form onSubmit={onSubmitForm}>
                     <div className='grid grid-cols-2 p-3 gap-3 items-center'>
                         <Input
-                            variant='faded'
+                            variant='solid'
                             label="Certification Name"
                             name="certificationName"
                             labelPlacement="outside"
@@ -49,7 +48,7 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
                             onChange={onInputChange}
                         />
                         <Input
-                            variant='faded'
+                            variant='solid'
                             label="Authority"
                             name="authority"
                             value={authority}
@@ -60,7 +59,7 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
 
                         <DatePicker
                             showMonthAndYearPickers
-                            variant='faded'
+                            variant='solid'
                             label="Issue Date"
                             name='issueDate'
                             value={issueDate ? parseDate(issueDate) : null}
@@ -70,7 +69,7 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
 
                         <DatePicker
                             showMonthAndYearPickers
-                            variant='faded'
+                            variant='solid'
                             label="Expiration Date"
                             name='expirationDate'
                             value={expirationDate ? parseDate(expirationDate) : null}
@@ -79,7 +78,7 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
                         />
 
                         <div className='flex justify-end col-span-2 gap-2'>
-                            <Button onClick={onCancelForm} color='danger'>Cancel</Button>
+                            <Button onClick={onCancelForm}  variant="flat" color='danger'>Cancel</Button>
                             <Button type='submit' color='success'>{initialData?.id ? "Save" : "Add New"}</Button>
                         </div>
                     </div>

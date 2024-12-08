@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 
 /**
@@ -8,6 +9,7 @@ import { useState } from 'react';
 export const useForm = ( formData) => {
   
     const [formState, setFormState] = useState(formData)
+    const [isFormEmpty, setIsFormEmpty] = useState(true);
 
 
     // Manejar cambios en los campos de texto y otros valores de control
@@ -45,10 +47,17 @@ export const useForm = ( formData) => {
         setFormState(formData);
     }
 
+     // Verifica si el formulario está vacío
+     useEffect(() => {
+        const isEmpty = Object.values(formState).every((value) => !value);
+        setIsFormEmpty(isEmpty);
+    }, [formState]);
+
 
     return {
         ...formState,
         formState,
+        isFormEmpty,
         onInputChange,
         onResetForm,
         setValue,
