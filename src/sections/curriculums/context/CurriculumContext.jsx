@@ -2,13 +2,15 @@ import { createContext, useContext, useState } from 'react';
 
 const CurriculumContext = createContext();
 
+const initialState = {
+    experiences: [],
+    certifications: [],
+    expertise: [],
+    skills: [],
+}
+
 export const CurriculumProvider = ({ children }) => {
-    const [curriculumData, setCurriculumData] = useState({
-        experiences: [],
-        certifications: [],
-        expertise: [],
-        skills: [],
-    });
+    const [curriculumData, setCurriculumData] = useState(initialState);
 
     const addItem = (listName, item) => {
         setCurriculumData((prev) => ({
@@ -32,6 +34,10 @@ export const CurriculumProvider = ({ children }) => {
             [listName]: prev[listName].filter((item) => item.id !== id),
         }));
     };
+
+    const clearAll = () => {
+        setCurriculumData(initialState)
+    }
 
     return (
         <CurriculumContext.Provider

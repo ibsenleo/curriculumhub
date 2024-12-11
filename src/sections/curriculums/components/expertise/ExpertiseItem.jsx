@@ -24,9 +24,9 @@ export const ExpertiseItem = ({ item, onEdit, onDelete }) => {
                     </Button>
                 </div>
             </div>
-            <div className='text-xl'><span className='font-bold text-zinc-500'>Expertise Name: </span>{item.expertiseName} </div>
-            <div className='text-xl'><span className='font-bold text-zinc-500'>Expertise Years: </span>{item.expertiseYears} </div>
-            <div><span className='font-bold text-zinc-500'>Expertise description: </span><div style={{ "whiteSpace": 'pre-wrap' }}>{item.expertiseDescription || 'No description provided'}</div></div>
+            <div className='text-xl'><span className='font-bold text-zinc-500'>Expertise Name: </span>{item.name} </div>
+            <div className='text-xl'><span className='font-bold text-zinc-500'>Expertise Years: </span>{item.years} </div>
+            <div><span className='font-bold text-zinc-500'>Expertise description: </span><div style={{ "whiteSpace": 'pre-wrap' }}>{item.description || 'No description provided'}</div></div>
         </div>
   )
 }

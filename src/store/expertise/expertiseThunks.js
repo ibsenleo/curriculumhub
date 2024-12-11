@@ -2,10 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { restApiAuth } from "../../services/restapi";
 import { normalizeResumeePayload } from "../resumeeDataNormalizer";
 import { setAuthors } from "../author/authorSlice";
-import { expertisesSelectors, selectAllExpertises, setAllExpertise } from "../expertise/expertiseSlice";
 
-export const fetchResumeesThunk = createAsyncThunk(
-    'groups/fetchResumees',
+export const fetchExpertiseThunk = createAsyncThunk(
+    'groups/fetchExpertise',
     async (_, { getState, dispatch, rejectWithValue }) => {
         //get Auth state
         const authState = getState().auth;
@@ -16,7 +15,6 @@ export const fetchResumeesThunk = createAsyncThunk(
             const normalizedData = normalizeResumeePayload(resp.data.data);
             
             dispatch(setAuthors(normalizedData.authors))
-            dispatch(setAllExpertise(normalizedData.expertise))
 
             return normalizedData.resumees
 

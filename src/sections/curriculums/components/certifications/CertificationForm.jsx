@@ -10,12 +10,12 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
         onInputChange,
         onResetForm,
         isFormEmpty,
-        certificationName,
+        name,
         authority,
         expirationDate,
         issueDate,
     } = useForm({
-        certificationName: "",
+        name: "",
         authority: "",
         issueDate: null,
         expirationDate: null,
@@ -42,9 +42,9 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
                         <Input
                             variant='solid'
                             label="Certification Name"
-                            name="certificationName"
+                            name="name"
                             labelPlacement="outside"
-                            value={certificationName}
+                            value={name}
                             onChange={onInputChange}
                         />
                         <Input

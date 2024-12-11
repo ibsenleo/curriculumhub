@@ -31,12 +31,13 @@ export const normalizeResumeePayload = (data) => {
         }
 
         // // Normalización de expertise
-        // resumee.expertise.forEach(expertise => {
-        //   normalizedData.expertise.push({
-        //     ...expertise,
-        //     resumee: resumee.id,
-        //     expertise_items: expertise.expertise_items.map(item => item.id),
-        //   });
+        resumee.expertise.forEach(expertise => {
+          normalizedData.expertise.push({
+            ...expertise,
+            resumee: resumee.id,
+            // expertise_items: expertise.expertise_items.map(item => item.id),
+          });
+        })
 
         //   // Normalización de expertise_items
         //   expertise.expertise_items.forEach(item => {

@@ -8,6 +8,7 @@ import { CurriculumsPage } from "../sections/curriculums";
 import { SettingsPage } from "../sections/settings/pages/SettingsPage";
 import { CurriculumNewPage } from "../sections/curriculums/pages/CurriculumNewPage";
 import { MicrosoftAuthCallback } from "../sections/auth/pages/MicrosoftAuthCallback";
+import { CurriculumProvider } from "../sections/curriculums/context/CurriculumContext";
 
 export const futures = {
     v7_relativeSplatPath: true,
@@ -48,7 +49,7 @@ export const PrivateRoutes =  {
         }
         ,{
             path:'new',
-            element: <CurriculumNewPage/>
+            element: (<CurriculumNewPage/>)
         }
         ,{
             path:'settings',

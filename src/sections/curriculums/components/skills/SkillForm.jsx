@@ -4,20 +4,22 @@ import { useForm } from '../../../../hooks/useForm'
 import { parseDate } from '@internationalized/date'
 import { AcademicCapIcon, BookOpenIcon, ClipboardDocumentCheckIcon, LightBulbIcon, SparklesIcon, StarIcon } from '@heroicons/react/16/solid';
 
-import { skillLevels } from '../../../../utils/const';
+import { useSelector } from 'react-redux';
 
 export const SkillForm = ({ onSubmit, onCancel = () => {}, initialData = {} }) => {
+
+    const {skillLevels} = useSelector(state => state.staticData)
 
     const {
         formState,
         onInputChange,
         onResetForm,
         isFormEmpty,
-        skillName,
-        skillLevel,
+        name,
+        level,
     } = useForm({
-        skillName: "",
-        skillLevel: "0",
+        name: "",
+        level: "0",
         ...initialData
     })
 
@@ -41,9 +43,9 @@ export const SkillForm = ({ onSubmit, onCancel = () => {}, initialData = {} }) =
                         <Input
                             variant='solid'
                             label="Skill Name"
-                            name="skillName"
+                            name="name"
                             size="sm"
-                            value={skillName}
+                            value={name}
                             onChange={onInputChange}
                         />
 
@@ -51,8 +53,8 @@ export const SkillForm = ({ onSubmit, onCancel = () => {}, initialData = {} }) =
                         className="" 
                         size='sm' 
                         label="Select a level"
-                        name="skillLevel"
-                        selectedKeys={skillLevel}
+                        name="level"
+                        selectedKeys={level}
                         onChange={onInputChange}
   
                         >

@@ -1,6 +1,6 @@
 import React from 'react'
 import { columns, users, empty } from "./sample-data";
-import { Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, User } from '@nextui-org/react';
+import { Chip, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, User } from '@nextui-org/react';
 import { EyeDropperIcon, EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
 import { useSelector } from 'react-redux';
 import { selectAllResumees } from '../../../store/resumee';
@@ -14,6 +14,7 @@ export const CurriculumTable = () => {
 
 
     const resumeesWithAuthors = useSelector(selectResumeesWithAuthors);
+    const { isLoading, error } = useSelector(state => state.resumees)
 
     const renderCell = useCallback((resumee, columnKey) => {
 
@@ -84,7 +85,12 @@ export const CurriculumTable = () => {
                     </TableColumn>
                 )}
             </TableHeader>
-            <TableBody items={resumeesWithAuthors} emptyContent={"No rows to display."}>
+            <TableBody 
+            items={resumeesWithAuthors} 
+            emptyContent={"No curriculums to display."}
+            isLoading={isLoading}
+            loadingContent={<Spinner color="white" />}
+            >
                 {(item) => (
                     <TableRow key={item.id}>
                         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

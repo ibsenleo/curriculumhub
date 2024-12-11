@@ -31,7 +31,6 @@ export const CurriculumItemsList = ({ listName,  renderItem, children }) => {
 
     
     const handleSubmit = (item) => {
-        console.log(item);
         
         if (editingItem) {
             updateItem(listName, item);
@@ -54,8 +53,10 @@ export const CurriculumItemsList = ({ listName,  renderItem, children }) => {
     const handleCancel = (isFormEmpty = true) => {
         if (!isFormEmpty) {
             openModal(() => setShowForm(false), 'Are you sure you want to discard the changes?', 'Discard Changes');
+            setEditingItem(null);
         } else {
             setShowForm(false);
+            setEditingItem(null);
         }
     };
 

@@ -13,13 +13,13 @@ export const ExpertiseForm = ({ onSubmit, onCancel = () => {}, initialData = {} 
         onInputChange,
         onResetForm,
         isFormEmpty,
-        expertiseName,
-        expertiseYears,
-        expertiseDescription,
+        name,
+        years,
+        description,
     } = useForm({
-        expertiseName: "",
-        expertiseYears: "",
-        expertiseDescription: "",
+        name: "",
+        years: "",
+        description: "",
         ...initialData
     })
 
@@ -44,16 +44,16 @@ export const ExpertiseForm = ({ onSubmit, onCancel = () => {}, initialData = {} 
                         <Input
                             variant='solid'
                             label="Expertise Name"
-                            name="expertiseName"
+                            name="name"
                             labelPlacement="outside"
-                            value={expertiseName}
+                            value={name}
                             onChange={onInputChange}
                         />
                         <Input
                             variant='solid'
                             label="Expertise Years"
-                            name="expertiseYears"
-                            value={expertiseYears}
+                            name="years"
+                            value={years}
                             labelPlacement="outside"
                             onChange={onInputChange}
 
@@ -62,8 +62,8 @@ export const ExpertiseForm = ({ onSubmit, onCancel = () => {}, initialData = {} 
                             variant='solid'
                             className='col-span-2'
                             label="Expertise Description"
-                            name='expertiseDescription'
-                            value={expertiseDescription}
+                            name='description'
+                            value={description}
                             onChange={onInputChange}
                         />
 

@@ -61,6 +61,8 @@ export const {
     selectAll: selectAllResumees,
     selectById: selectResumeeById,
     selectIds: selectResumeeIds,
+    selectTotal: selectResumeeTotal,
+    selectEntities:selectResumeeEntities
 } = resumeeAdapter.getSelectors((state) => state.resumees);
 
 //Global export

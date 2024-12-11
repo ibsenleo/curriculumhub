@@ -1,33 +1,70 @@
-import { Avatar, Button, Input, Select, SelectItem } from '@nextui-org/react'
+import { Avatar, Input, Select, SelectItem, Textarea } from '@nextui-org/react'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { GoBackButton, TopBarLayout } from '../../../common'
 import { CertificationForm, CertificationItem } from '../components/certifications'
 import { CurriculumItemsList } from '../components/CurriculumItemsList'
-import { CurriculumProvider } from '../context/CurriculumContext'
-import { SkillForm, SkillItem } from '../components/skills'
 import { ExperienceForm, ExperienceItem } from '../components/experiences'
 import { ExpertiseForm, ExpertiseItem } from '../components/expertise'
+import { SaveCurriculumButton } from '../components/SaveCurriculumButton'
+import { SkillForm, SkillItem } from '../components/skills'
+import { CurriculumProvider, useCurriculum } from '../context/CurriculumContext'
+import { useForm } from '../../../hooks'
+import { selectAllOffices } from '../../../store/staticData/staticDataSlice'
+import { useMemo } from 'react'
+import { useCallback } from 'react'
 
-const offices = [
-    { id: 1, name: 'Spain/Barcelona', flag: 'es' },
-    { id: 2, name: 'Spain/Madrid', flag: 'es' },
-    { id: 3, name: 'Spain/Salamanca', flag: 'es' },
-    { id: 4, name: 'Andorra', flag: 'ad' },
-    { id: 5, name: 'United Kingdom', flag: 'gb' },
-    { id: 6, name: 'Switzerland', flag: 'ch' },
-    { id: 7, name: 'Other' },
-];
+// const offices = [
+//     { id: 1, name: 'Spain/Barcelona', flag: 'es' },
+//     { id: 2, name: 'Spain/Madrid', flag: 'es' },
+//     { id: 3, name: 'Spain/Salamanca', flag: 'es' },
+//     { id: 4, name: 'Andorra', flag: 'ad' },
+//     { id: 5, name: 'United Kingdom', flag: 'gb' },
+//     { id: 6, name: 'Switzerland', flag: 'ch' },
+//     { id: 7, name: 'Other' },
+// ];
+
 
 export const CurriculumNewPage = () => {
     const auth = useSelector((state) => state.auth);
+    const offices = useSelector(selectAllOffices);
+
+    const initialValue = {
+        version: auth.username,
+        email: auth.email,
+        firstName: auth.firstName,
+        lastName: auth.lastName,
+        professionalLevel: "",
+        office: "2",
+        bio: ""
+    }
+
+    const {
+        formState, 
+        onInputChange, 
+        onResetForm,
+        version,
+        email,
+        firstName,
+        lastName,
+        professionalLevel,
+        office,
+        bio
+    } = useForm(initialValue)
+
+
+    const getOfficeById = useCallback((id) => {
+        return offices.find((office) => office.id == id)
+    }, [office])
+
+    
+    
 
     //TODO: Envolver todo en el provider y enviar toda la info al save curric 
 
     return (
-
         <TopBarLayout className='max-w-4xl m-auto items-stretch w-full'>
-
+            <CurriculumProvider>
             <div className='text-2xl mb-5 items-center flex gap-2'> <GoBackButton /> Add New Curriculum</div>
             <div className='text-xl mb-2'>Personal Info</div>
             <div className='dark:border-zinc-700 border-zinc-300 border dark:bg-zinc-900 bg-zinc-100   rounded-lg shadow-lg gap-3 p-3 mb-5'>
@@ -37,7 +74,8 @@ export const CurriculumNewPage = () => {
                         label="Version"
                         name="version"
                         labelPlacement="outside"
-                        value={auth.username}
+                        value={version}
+                        onChange={onInputChange}
                     />
                     <Input
                         variant='solid'
@@ -46,21 +84,24 @@ export const CurriculumNewPage = () => {
                         labelPlacement="outside"
                         isReadOnly
                         className='text-zinc-400'
-                        value={auth.email}
+                        value={email}
+                        onChange={onInputChange}
                     />
                     <Input
                         variant='solid'
                         label="First name"
-                        name="firstname"
+                        name="firstName"
                         labelPlacement="outside"
-                        value={auth.firstName || ""}
+                        value={firstName}
+                        onChange={onInputChange}
                     />
                     <Input
                         variant='solid'
                         label="Last name"
-                        name="lastname"
                         labelPlacement="outside"
-                        value={auth.lastName || ""}
+                        name="lastName"
+                        value={lastName}
+                        onChange={onInputChange}
                     />
                     {/* 
                     <Input
@@ -80,7 +121,8 @@ export const CurriculumNewPage = () => {
                         label="Professional Level"
                         name="professionalLevel"
                         labelPlacement="outside"
-
+                        value={professionalLevel}
+                        onChange={onInputChange}
                     />
 
                     <Select
@@ -88,13 +130,22 @@ export const CurriculumNewPage = () => {
                         label="Office"
                         className=""
                         variant='solid'
+                        selectedKeys={office.id}
+                        onChange={onInputChange}
+                        startContent={<Avatar alt={getOfficeById(office)?.name || ""}
+                                    className="w-6 h-5"
+                                    src={`https://flagcdn.com/${getOfficeById(office)?.country || ""}.svg`} />}
+                        name="office"
+                        scrollShadowProps={{
+                            isEnabled: false,
+                          }}
                     >
                         {offices.map((office, k) => (
                             <SelectItem
                                 key={office.id}
-                                startContent={<Avatar alt={office.flag + " " + k}
+                                startContent={<Avatar alt={office.country + " " + k}
                                     className="w-6 h-6"
-                                    src={`https://flagcdn.com/${office.flag}.svg`} />}
+                                    src={`https://flagcdn.com/${office.country}.svg`} />}
                             >
 
                                 {office.name}
@@ -102,13 +153,22 @@ export const CurriculumNewPage = () => {
                         ))}
                     </Select>
 
+                    <Textarea
+                        variant='solid'
+                        className='col-span-2'
+                        label="Bio"
+                        name='bio'
+                        value={bio}
+                        onChange={onInputChange}
+                    />
+
 
                 </div>
             </div>
 
 
 
-            <CurriculumProvider>
+            
 
                 <CurriculumItemsList
                     listName="experiences"
@@ -150,17 +210,19 @@ export const CurriculumNewPage = () => {
                     <ExpertiseForm />
                 </CurriculumItemsList>
 
-            </CurriculumProvider>
+            
 
 
 
 
 
 
-            <div className='flex justify-end'>
+            {/* <div className='flex justify-end'>
                 <Button className='' color='primary'>Save Curriculum</Button>
-            </div>
+            </div> */}
+            <SaveCurriculumButton formdata={formState}/>
 
+            </CurriculumProvider>
         </TopBarLayout>
     )
 }
