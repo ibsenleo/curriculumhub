@@ -1,25 +1,28 @@
-import { Button, DatePicker, Input, Textarea } from '@nextui-org/react'
-import React from 'react'
-import { useForm } from '../../../../hooks/useForm'
-import { parseDate } from '@internationalized/date'
+import { parseDate } from '@internationalized/date';
+import { Button, DatePicker, Input, Textarea } from '@nextui-org/react';
+import React from 'react';
+import { useForm } from '../../../../hooks/useForm';
 
-export const ExperienceForm = ({ onSubmit, onCancel = () => { }, initialData = {} }) => {
 
-    const { onInputChange,
-        onResetForm,
+export const EducationForm = ({ onSubmit, onCancel = () => { }, initialData = {} }) => {
+
+
+    const {
         formState,
+        onInputChange,
+        onResetForm,
         isFormEmpty,
-        jobTitle,
-        companyName,
-        endDate,
-        startDate,
-        jobDescription,
+        degree,
+        institution,
+        startYear,
+        endYear,
+        description
     } = useForm({
-        jobTitle: "",
-        companyName: "",
-        startDate: null,
-        endDate: null,
-        jobDescription: "",
+        degree: "",
+        institution: "",
+        startYear: "",
+        endYear: "",
+        description: "",
         ...initialData
     })
 
@@ -30,8 +33,8 @@ export const ExperienceForm = ({ onSubmit, onCancel = () => { }, initialData = {
     }
 
     const onCancelForm = () => {
+        console.log("HOLA")
         onCancel(isFormEmpty)
-        // onResetForm();
     }
 
 
@@ -42,51 +45,52 @@ export const ExperienceForm = ({ onSubmit, onCancel = () => { }, initialData = {
                     <div className='grid grid-cols-2 p-3 gap-3 items-center'>
                         <Input
                             variant='solid'
-                            label="Job Title"
-                            name="jobTitle"
-                            labelPlacement="outside"
-                            value={jobTitle}
+                            label="Degree"
+                            name="degree"
+                            size="sm"
+                            value={degree}
                             onChange={onInputChange}
                         />
+
                         <Input
                             variant='solid'
-                            label="Company Name"
-                            name="companyName"
-                            value={companyName}
-                            labelPlacement="outside"
+                            label="Institution"
+                            name="institution"
+                            size="sm"
+                            value={institution}
                             onChange={onInputChange}
-
                         />
 
                         <DatePicker
                             showMonthAndYearPickers
                             variant='solid'
                             label="Start Date"
-                            name='startDate'
-                            value={startDate ? parseDate(startDate) : null}
-                            onChange={(date) => onInputChange({ name: 'startDate', value: date.toString() })}
-                        // onChange={(date) => onInputChange({ target: { name: 'startDate', value: date } })}
+                            name='startYear'
+                            value={startYear ? parseDate(startYear) : null}
+                            onChange={(date) => onInputChange({ name: 'startYear', value: date.toString() })}
                         />
 
                         <DatePicker
                             showMonthAndYearPickers
                             variant='solid'
                             label="End Date"
-                            name='endDate'
-                            value={endDate ? parseDate(endDate) : null}
-                            onChange={(date) => onInputChange({ name: 'endDate', value: date.toString() })}
+                            name='endYear'
+                            value={endYear ? parseDate(endYear) : null}
+                            onChange={(date) => onInputChange({ name: 'endYear', value: date.toString() })}
 
                         />
+
                         <Textarea
                             variant='solid'
                             className='col-span-2'
-                            label="Job Description"
-                            name='jobDescription'
-                            value={jobDescription}
+                            label="Description"
+                            name='description'
+                            value={description}
                             onChange={onInputChange}
                         />
+
                         <div className='flex justify-end col-span-2 gap-2'>
-                            <Button onClick={onCancelForm}  variant="flat" color='danger'>Cancel</Button>
+                            <Button onClick={onCancelForm} variant="flat" color='danger'>Cancel</Button>
                             <Button type='submit' color='success'>{initialData?.id ? "Save" : "Add New"}</Button>
                         </div>
                     </div>

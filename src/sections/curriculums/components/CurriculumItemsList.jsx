@@ -2,7 +2,7 @@ import React from 'react'
 import { CurriculumProvider, useCurriculum } from '../context/CurriculumContext'
 import { useState } from 'react';
 import { cloneElement } from 'react';
-import { Button } from '@nextui-org/react';
+import { Button, Divider } from '@nextui-org/react';
 import { PlusIcon } from '@heroicons/react/16/solid';
 import { ConfirmBox } from '../../../common/components/ConfirmBox';
 import { useMemo } from 'react';
@@ -52,7 +52,11 @@ export const CurriculumItemsList = ({ listName,  renderItem, children }) => {
 
     const handleCancel = (isFormEmpty = true) => {
         if (!isFormEmpty) {
-            openModal(() => setShowForm(false), 'Are you sure you want to discard the changes?', 'Discard Changes');
+            openModal(
+                () => setShowForm(false), 
+                'Are you sure you want to discard the changes?', 
+                'Discard Changes'
+            );
             setEditingItem(null);
         } else {
             setShowForm(false);
@@ -67,7 +71,7 @@ export const CurriculumItemsList = ({ listName,  renderItem, children }) => {
 
     return (
         <div className='mb-10 '>
-            <hr className='my-2'/>
+            <Divider className='mb-3'/>
             <div className='grid grid-flow-col items-center mb-5'>
                 <div className='text-xl'>{listName.charAt(0).toUpperCase() + listName.slice(1)}</div>
                 <div className='flex  justify-end'>

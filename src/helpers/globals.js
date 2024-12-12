@@ -17,6 +17,25 @@ export const camelToSnakeDeep = (obj) => {
     return obj;
 };
 
+export const snakeToCamelDeep = (obj) => {
+    const toCamelCase = (str) => str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+
+    if (Array.isArray(obj)) {
+        // Si es un array, aplica la transformación a cada elemento
+        return obj.map((item) => snakeToCamelDeep(item));
+    } else if (obj && typeof obj === 'object') {
+        // Si es un objeto, transforma sus claves y aplica recursivamente
+        return Object.fromEntries(
+            Object.entries(obj).map(([key, value]) => [
+                toCamelCase(key),
+                snakeToCamelDeep(value),
+            ])
+        );
+    }
+    // Si es un valor primitivo, retorna tal cual
+    return obj;
+};
+
 export const camelToSnakeDeepWithoutId = (obj) => {
     const toSnakeCase = (str) => str.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
 

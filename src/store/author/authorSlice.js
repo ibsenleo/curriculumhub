@@ -23,6 +23,7 @@ export const authorSlice = createSlice({
     reducers: {
         setAuthors: authorAdapter.setAll,
         addAuthor: authorAdapter.addOne,
+        setAuthor: authorAdapter.setOne,
         updateAuthor: authorAdapter.updateOne,
         deleteAuthor: authorAdapter.removeOne,
         selectAuthor: (state, action) => {
@@ -31,7 +32,7 @@ export const authorSlice = createSlice({
     }
 })
 
-export const { addAuthor, deleteAuthor, updateAuthor, selectAuthor, setAuthors } = authorSlice.actions;
+export const { addAuthor, deleteAuthor, updateAuthor, selectAuthor, setAuthors, setAuthor } = authorSlice.actions;
 
 // Specific export (inside globals)
 export const {

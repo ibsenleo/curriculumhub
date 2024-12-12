@@ -5,7 +5,7 @@ import React from 'react'
 export const ExpertiseItem = ({ item, onEdit, onDelete }) => {
   return (
     <div
-            className={`${false ? 'dark:bg-zinc-700 bg-zinc-300' : 'dark:bg-zinc-900 bg-zinc-100'} dark:border-zinc-700 border-zinc-300 border  rounded-lg shadow-lg my-3 p-3 text-sm animate-shake animate-duration-500 animate-once`}
+            className={`${false ? 'dark:bg-zinc-700 bg-zinc-300' : 'dark:bg-zinc-900 bg-zinc-100'}   rounded-lg shadow-lg my-3 p-3 text-sm animate-shake animate-duration-500 animate-once`}
             key={"expertise" + "-" + item.id}>
             <div className='grid grid-cols-2'>
                 <div>Expertise {item.id}</div>

@@ -3,11 +3,15 @@ import React from 'react'
 
 export const ConfirmBox = ({isOpen, onAccept, onCancel, message, title="Alert"}) => {
     // const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const onOpenChange = ()=>{
-        console.log(isOpen)
-    }
+
+    const handleAccept = () => {
+      if (onAccept) {
+        onAccept(); // Ejecuta la acción proporcionada
+      }
+      onCancel(); // Cierra el modal
+    };
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal isOpen={isOpen} >
         <ModalContent>
           {(onClose) => (
             <>
@@ -21,7 +25,7 @@ export const ConfirmBox = ({isOpen, onAccept, onCancel, message, title="Alert"})
                 <Button color="danger" variant="light" onPress={onCancel}>
                   No
                 </Button>
-                <Button color="primary" onPress={onAccept}>
+                <Button color="primary" onPress={handleAccept}>
                   Yes
                 </Button>
               </ModalFooter>

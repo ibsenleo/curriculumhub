@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { fetchResumeesThunk } from "./resumeeThunks";
+import { createResumeeThunk, fetchResumeesThunk, removeResumeThunk } from "./resumeeThunks";
 import { clearStateAction } from "../common/actions/clearStateAction";
 
 const resumeeAdapter = createEntityAdapter({
@@ -39,7 +39,7 @@ export const resumeeSlice = createSlice({
                 state.isLoading = false;
                 state.error = null;
                 resumeeAdapter.setAll(state, payload);
-                state.selectedResumeeId = (state.entities[state.selectedResumeeId]) 
+                state.selectedResumeeId == (state.entities[state.selectedResumeeId])
                     ? state.selectedResumeeId
                     : null
             })
@@ -48,6 +48,33 @@ export const resumeeSlice = createSlice({
                 state.error = payload;
                 state.selectedResumeeId = null;
             })
+            .addCase(createResumeeThunk.pending, (state) => {
+                state.isLoading = true;
+                state.error = null
+            })
+            .addCase(createResumeeThunk.fulfilled, (state, { payload }) => {
+                state.isLoading = false;
+                state.error = null
+                resumeeAdapter.addOne(state, payload)
+            })
+            .addCase(createResumeeThunk.rejected, (state, {payload}) => {
+                state.isLoading = false;
+                state.error = payload;
+            })
+            .addCase(removeResumeThunk.pending,(state) => {
+                state.isLoading = true;
+                state.error = null
+            })
+            .addCase(removeResumeThunk.fulfilled,(state, { payload }) => {
+                state.isLoading = false;
+                state.error = null
+                resumeeAdapter.removeOne(state, payload)
+            })
+            .addCase(removeResumeThunk.rejected,(state, {payload}) => {
+                state.isLoading = false;
+                state.error = payload;
+            })
+
             .addCase(clearStateAction, (state) => {
                 resumeeAdapter.removeAll(state)
             });
@@ -62,7 +89,7 @@ export const {
     selectById: selectResumeeById,
     selectIds: selectResumeeIds,
     selectTotal: selectResumeeTotal,
-    selectEntities:selectResumeeEntities
+    selectEntities: selectResumeeEntities
 } = resumeeAdapter.getSelectors((state) => state.resumees);
 
 //Global export

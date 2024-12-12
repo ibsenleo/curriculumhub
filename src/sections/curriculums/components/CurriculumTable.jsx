@@ -3,11 +3,15 @@ import { columns, users, empty } from "./sample-data";
 import { Chip, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, User } from '@nextui-org/react';
 import { EyeDropperIcon, EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
 import { useSelector } from 'react-redux';
-import { selectAllResumees } from '../../../store/resumee';
+import { removeResumeThunk, selectAllResumees } from '../../../store/resumee';
 import { useCallback } from 'react';
 import { selectAllAuthors } from '../../../store/author/authorSlice';
 import { useMemo } from 'react';
 import { selectResumeesWithAuthors } from '../../../store/common/selectors/selectResumeesWithAuthors';
+import { useConfirmBox } from '../../../common/hooks/useConfirmBox';
+import { ConfirmBox } from '../../../common/components/ConfirmBox';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 export const CurriculumTable = () => {
@@ -15,6 +19,34 @@ export const CurriculumTable = () => {
 
     const resumeesWithAuthors = useSelector(selectResumeesWithAuthors);
     const { isLoading, error } = useSelector(state => state.resumees)
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+    const {
+        isOpen: isModalOpen,
+        modalConfig,
+        openModal,
+        closeModal,
+        executeModalAction,
+    } = useConfirmBox();
+
+    const handleDelete = (id) => {
+        openModal(
+            () => onDeleteResumee(id), 
+            'Are you sure you want to delete the resumee?', 
+            'Delete resumee'
+        );
+    }
+
+
+    const onDeleteResumee = (id) => {
+        console.log("deleting " + id)
+        dispatch(removeResumeThunk(id));
+    }
+
+    const onShowResumee = (id) => {
+        navigate('curriculum/' + id)
+    }
 
     const renderCell = useCallback((resumee, columnKey) => {
 
@@ -53,10 +85,10 @@ export const CurriculumTable = () => {
                 );
             case "actions":
                 return (
-                    <div className="relative flex items-center justify-items-center gap-2">
+                    <div className="relative flex items-center justify-center gap-3">
                         <Tooltip content="Details">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <EyeIcon className="size-4" />
+                                <EyeIcon className="size-4" onClick={() => onShowResumee(resumee.id)} />
                             </span>
                         </Tooltip>
                         <Tooltip content="Edit resumee">
@@ -66,7 +98,7 @@ export const CurriculumTable = () => {
                         </Tooltip>
                         <Tooltip color="danger" content="Delete resumee">
                             <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                                <TrashIcon className="size-4" />
+                                <TrashIcon className="size-4" onClick={() => handleDelete(resumee.id)}/>
                             </span>
                         </Tooltip>
                     </div>
@@ -74,10 +106,20 @@ export const CurriculumTable = () => {
             default:
                 return cellValue;
         }
-    }, []);
+    }, [resumeesWithAuthors]);
 
     return (
-        <Table aria-label="Example table with custom cells" className='border-zinc-700 border rounded-2xl shadow-lg my-2'>
+        <>
+        <ConfirmBox 
+             isOpen={isModalOpen}
+             onAccept={executeModalAction}
+             onCancel={closeModal}
+             message={modalConfig.message}
+             title={modalConfig.title}
+            />
+            
+            
+        <Table aria-label="Example table with custom cells" className='rounded-2xl shadow-lg my-2'>
             <TableHeader columns={columns}>
                 {(column) => (
                     <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
@@ -98,5 +140,6 @@ export const CurriculumTable = () => {
                 )}
             </TableBody>
         </Table>
+        </>
     );
 }

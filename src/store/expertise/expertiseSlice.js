@@ -22,6 +22,7 @@ export const expertiseSlice = createSlice({
     reducers: {
         setAllExpertise: expertiseAdapter.setAll,
         addExpertise: expertiseAdapter.addOne,
+        removeManyExpertise: expertiseAdapter.removeMany,
         updateExpertise: expertiseAdapter.updateOne,
         deleteExpertise: expertiseAdapter.removeOne,
         selectExpertise: (state, action) => {
@@ -37,7 +38,14 @@ export const expertiseSlice = createSlice({
     },
 })
 
-export const { addExpertise, deleteExpertise, updateExpertise, selectExpertise, setAllExpertise } = expertiseSlice.actions;
+export const { 
+    addExpertise, 
+    deleteExpertise, 
+    updateExpertise, 
+    selectExpertise, 
+    setAllExpertise, 
+    removeManyExpertise 
+} = expertiseSlice.actions;
 
 // Specific export (inside globals)
 export const {

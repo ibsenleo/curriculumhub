@@ -7,6 +7,7 @@ const initialState = {
     certifications: [],
     expertise: [],
     skills: [],
+    educations: [],
 }
 
 export const CurriculumProvider = ({ children }) => {
@@ -41,7 +42,7 @@ export const CurriculumProvider = ({ children }) => {
 
     return (
         <CurriculumContext.Provider
-            value={{ curriculumData, addItem, updateItem, deleteItem }}
+            value={{ curriculumData, addItem, updateItem, deleteItem, clearAll }}
         >
             {children}
         </CurriculumContext.Provider>

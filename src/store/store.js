@@ -5,6 +5,10 @@ import { resumeeSlice } from "./resumee";
 import { authorSlice } from "./author/authorSlice";
 import { staticDataSlice } from "./staticData/staticDataSlice";
 import { expertiseSlice } from "./expertise/expertiseSlice";
+import { certificationSlice } from "./certification";
+import { experienceSlice } from "./experience";
+import { skillSlice } from "./skill";
+import { educationSlice } from "./education";
 // import { groupSlice } from "./group";
 // import { transactionsSlice } from "./transaction/transactionSlice";
 // import { usersSlice } from "./users";
@@ -15,7 +19,11 @@ export const store = configureStore({
         auth: authSlice.reducer,
         config: configSlice.reducer,
         resumees: resumeeSlice.reducer,
+        educations: educationSlice.reducer,
         expertise: expertiseSlice.reducer,
+        certificatons: certificationSlice.reducer,
+        experiences: experienceSlice.reducer,
+        skills:skillSlice.reducer,
         authors: authorSlice.reducer,
         staticData: staticDataSlice.reducer
     },

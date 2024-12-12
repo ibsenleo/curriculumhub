@@ -1,2 +1,2 @@
-export * from './resumeeSlice'
-export * from './resumeeThunks'
+export * from './expertiseSlice'
+export * from './expertiseThunks'

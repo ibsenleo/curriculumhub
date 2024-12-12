@@ -3,7 +3,7 @@ import { Button } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const GoBackButton = () => {
+export const GoBackButton = ({className = ''}) => {
     const [history, setHistory] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ export const GoBackButton = () => {
     //TODO: REFACTOR TO SAVE HISTORY IN STORE
     return (<>
         {history.length > 1 &&
-            (<Button isIconOnly onClick={handleGoBack}>
+            (<Button className={className} isIconOnly onClick={handleGoBack}>
                 <ArrowLeftIcon className="size-6 "/>            
                 </Button>)
         }

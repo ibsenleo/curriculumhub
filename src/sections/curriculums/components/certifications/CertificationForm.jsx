@@ -36,7 +36,7 @@ export const CertificationForm = ({ onSubmit, onCancel = () => {}, initialData =
 
     return (
         <div className="grid grid-flow-row gap-3 animate-fade animate-duration-150">
-            <div className='dark:border-zinc-700 border-zinc-300 border dark:bg-zinc-900 bg-zinc-100  rounded-lg shadow-lg gap-3 p-3'>
+            <div className='dark:bg-zinc-900 bg-zinc-300  rounded-lg shadow-lg gap-3 p-3'>
                 <form onSubmit={onSubmitForm}>
                     <div className='grid grid-cols-2 p-3 gap-3 items-center'>
                         <Input
