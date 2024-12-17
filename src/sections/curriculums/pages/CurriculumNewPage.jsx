@@ -31,8 +31,6 @@ export const CurriculumNewPage = () => {
     const auth = useSelector((state) => state.auth);
     const offices = useSelector(selectAllOffices);
 
-    const notify = () => toast("Wow so easy!")
-
 
     const initialValue = {
         version: auth.username,
@@ -65,11 +63,6 @@ export const CurriculumNewPage = () => {
     const onSubmitForm = () => {
         onResetForm()
     }
-
-
-
-
-    //TODO: Envolver todo en el provider y enviar toda la info al save curric 
 
     return (
         <TopBarLayout className='max-w-4xl m-auto items-stretch w-full'>

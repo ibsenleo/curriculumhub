@@ -10,6 +10,7 @@ import { CurriculumNewPage } from "../sections/curriculums/pages/CurriculumNewPa
 import { MicrosoftAuthCallback } from "../sections/auth/pages/MicrosoftAuthCallback";
 import { CurriculumProvider } from "../sections/curriculums/context/CurriculumContext";
 import { CurriculumDetail } from "../sections/curriculums/pages/CurriculumDetail";
+import { CurriculumEditPage } from "../sections/curriculums/pages/CurriculumEditPage";
 
 export const futures = {
     v7_relativeSplatPath: true,
@@ -55,6 +56,10 @@ export const PrivateRoutes =  {
         ,{
             path:'curriculum/:id',
             element: (<CurriculumDetail/>)
+        }
+        ,{
+            path:'curriculum/:id/edit',
+            element: (<CurriculumEditPage/>)
         }
         ,{
             path:'settings',

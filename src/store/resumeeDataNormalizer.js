@@ -1,7 +1,7 @@
 export const normalizeResumeePayload = (data) => {
     const normalizedData = {
         resumees: [],
-        author: {},
+        authors: [],
         expertise: [],
         expertiseItems: [],
         certifications: [],
@@ -10,11 +10,13 @@ export const normalizeResumeePayload = (data) => {
         skills: [],
     };
 
+    const authorMap = new Map();
+
     // Normalize each resumee
     data.forEach((resumee) => {
         const {
             normalizedResumee,
-            normalizedAuthors,
+            normalizedAuthor,
             normalizedExpertise,
             normalizedExpertiseItems,
             normalizedCertifications,
@@ -27,7 +29,10 @@ export const normalizeResumeePayload = (data) => {
         normalizedData.resumees.push(normalizedResumee);
 
         // Merge authors to avoid duplicates
-        Object.assign(normalizedData.author, normalizedAuthors);
+        if (!authorMap.has(normalizedAuthor?.id)) {
+            authorMap.set(normalizedAuthor.id, normalizedAuthor);
+            normalizedData.authors.push(normalizedAuthor);
+        }
 
         // Spread normalized arrays
         normalizedData.expertise.push(...normalizedExpertise);
@@ -45,7 +50,7 @@ export const normalizeSingleResumee = (resumee) => {
     // Llama a normalizeElement para normalizar el resumee
     const {
         normalizedResumee,
-        normalizedAuthors,
+        normalizedAuthor,
         normalizedExpertise,
         normalizedExpertiseItems,
         normalizedCertifications,
@@ -57,7 +62,7 @@ export const normalizeSingleResumee = (resumee) => {
     // Estructura los datos normalizados en un solo objeto
     return {
         resumee: normalizedResumee,
-        author: { ...normalizedAuthors },
+        author: { ...normalizedAuthor },
         expertise: [...normalizedExpertise],
         expertiseItems: [...normalizedExpertiseItems],
         certifications: [...normalizedCertifications],
@@ -81,8 +86,9 @@ export const normalizeElement = (resumee) => {
         skills: resumee.skills?.map((e) => e.id) || [],
     };
 
-    const normalizedAuthors = {
-        [resumee.author.id]: { ...resumee.author },
+    const normalizedAuthor = {
+        // [resumee.author.id]: { ...resumee.author },
+        ...resumee.author ,
     };
 
     const normalizedExpertise = resumee.expertise?.map((expertise) => ({
@@ -120,7 +126,7 @@ export const normalizeElement = (resumee) => {
 
     return {
         normalizedResumee,
-        normalizedAuthors,
+        normalizedAuthor,
         normalizedExpertise,
         normalizedExpertiseItems,
         normalizedCertifications,

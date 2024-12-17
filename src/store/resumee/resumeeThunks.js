@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { restApiAuth } from "../../services/restapi";
 import { setAuthor, setAuthors } from "../author/authorSlice";
-import { addCertification, removeManyCertifications, setAllCertifications } from "../certification";
-import { addExpertise, removeManyExpertise, setAllExpertise } from "../expertise";
+import { addCertification, addManyCertifications, removeManyCertifications, setAllCertifications } from "../certification";
+import { addExpertise, addManyExpertise, removeManyExpertise, setAllExpertise } from "../expertise";
 import { normalizeResumeePayload, normalizeSingleResumee } from "../resumeeDataNormalizer";
-import { addExperience, removeManyExperiences, setAllExperiences } from "../experience";
-import { addSkill, removeManySkills, setAllSkills } from "../skill";
+import { addExperience, addManyExperiences, removeManyExperiences, setAllExperiences } from "../experience";
+import { addManySkills, addSkill, removeManySkills, setAllSkills } from "../skill";
 import { camelToSnakeDeepWithoutId, snakeToCamelDeep } from "../../helpers/globals";
-import { addEducation, setAllEducations } from "../education";
+import { addEducation, addManyEducations, setAllEducations } from "../education";
 
 export const fetchResumeesThunk = createAsyncThunk(
     'resumee/fetchResumees',
@@ -23,7 +23,7 @@ export const fetchResumeesThunk = createAsyncThunk(
             const normalizedData = normalizeResumeePayload(transformedCaseData);
             console.log(normalizedData)
             
-            dispatch(setAuthors(normalizedData.author))
+            dispatch(setAuthors(normalizedData.authors))
             dispatch(setAllExpertise(normalizedData.expertise))
             dispatch(setAllCertifications(normalizedData.certifications))
             dispatch(setAllExperiences(normalizedData.experiences))
@@ -52,17 +52,18 @@ export const createResumeeThunk = createAsyncThunk(
             const resp = await restApiAuth(token).post('/resumees', payload)
             //Normalize resumee response
             const normalizedResumee = normalizeSingleResumee(resp.data);
-            console.log(normalizedResumee)
+            const normalizedCaseData = snakeToCamelDeep(normalizedResumee);
+
             //dispatch actions to update store with normalized data
-            dispatch(setAuthor(normalizedResumee.author))
-            dispatch(addExpertise(normalizedResumee.expertise))
-            dispatch(addCertification(normalizedResumee.certifications))
-            dispatch(addExperience(normalizedResumee.experiences))
-            dispatch(addSkill(normalizedResumee.skills))
-            dispatch(addEducation(normalizedResumee.educations))
+            dispatch(setAuthor(normalizedCaseData.author))
+            dispatch(addManyExpertise(normalizedCaseData.expertise))
+            dispatch(addManyCertifications(normalizedCaseData.certifications))
+            dispatch(addManyExperiences(normalizedCaseData.experiences))
+            dispatch(addManySkills(normalizedCaseData.skills))
+            dispatch(addManyEducations(normalizedCaseData.educations))
 
             
-            return normalizedResumee.resumee
+            return normalizedCaseData.resumee
         } catch (error) {
             console.error(error)
             const errorMessage = error.response?.data?.message || error.message

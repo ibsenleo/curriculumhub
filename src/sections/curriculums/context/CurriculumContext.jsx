@@ -10,8 +10,8 @@ const initialState = {
     educations: [],
 }
 
-export const CurriculumProvider = ({ children }) => {
-    const [curriculumData, setCurriculumData] = useState(initialState);
+export const CurriculumProvider = ({ children, curriculumState }) => {
+    const [curriculumData, setCurriculumData] = useState(curriculumState || initialState);
 
     const addItem = (listName, item) => {
         setCurriculumData((prev) => ({

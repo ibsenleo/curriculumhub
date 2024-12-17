@@ -22,6 +22,7 @@ export const skillSlice = createSlice({
     reducers: {
         setAllSkills: skillAdapter.setAll,
         addSkill: skillAdapter.addOne,
+        addManySkills:skillAdapter.addMany,
         removeManySkills: skillAdapter.removeMany,
         updateSkill: skillAdapter.updateOne,
         deleteSkill: skillAdapter.removeOne,
@@ -40,6 +41,7 @@ export const skillSlice = createSlice({
 
 export const { 
     addSkill, 
+    addManySkills,
     deleteSkill, 
     updateSkill, 
     selectSkill, 

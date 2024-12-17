@@ -16,6 +16,7 @@ export const educationSlice = createSlice({
     reducers: {
         setAllEducations: educationAdapter.setAll,
         addEducation: educationAdapter.addOne,
+        addManyEducations: educationAdapter.addMany, 
         removeManyEducations: educationAdapter.removeMany,
         updateEducation: educationAdapter.updateOne,
         deleteEducation: educationAdapter.removeOne,
@@ -31,6 +32,7 @@ export const educationSlice = createSlice({
 });
 export const { 
     addEducation, 
+    addManyEducations,
     deleteEducation, 
     updateEducation, 
     selectEducation, 

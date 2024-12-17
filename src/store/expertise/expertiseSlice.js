@@ -22,6 +22,7 @@ export const expertiseSlice = createSlice({
     reducers: {
         setAllExpertise: expertiseAdapter.setAll,
         addExpertise: expertiseAdapter.addOne,
+        addManyExpertise: expertiseAdapter.addMany,
         removeManyExpertise: expertiseAdapter.removeMany,
         updateExpertise: expertiseAdapter.updateOne,
         deleteExpertise: expertiseAdapter.removeOne,
@@ -40,6 +41,7 @@ export const expertiseSlice = createSlice({
 
 export const { 
     addExpertise, 
+    addManyExpertise,
     deleteExpertise, 
     updateExpertise, 
     selectExpertise, 
@@ -54,7 +56,7 @@ export const {
     selectIds: selectExpertiseIds,
     selectTotal: selectExpertiseTotal,
     selectEntities:selectExpertiseEntities
-} = expertiseAdapter.getSelectors((state) => state.expertises);
+} = expertiseAdapter.getSelectors((state) => state.expertise);
 
 //Global export
-export const expertisesSelectors = expertiseAdapter.getSelectors((state) => state.expertises);
+export const expertiseSelectors = expertiseAdapter.getSelectors((state) => state.expertise);

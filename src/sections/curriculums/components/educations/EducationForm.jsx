@@ -33,7 +33,6 @@ export const EducationForm = ({ onSubmit, onCancel = () => { }, initialData = {}
     }
 
     const onCancelForm = () => {
-        console.log("HOLA")
         onCancel(isFormEmpty)
     }
 

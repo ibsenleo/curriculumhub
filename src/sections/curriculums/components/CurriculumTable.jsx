@@ -1,5 +1,5 @@
 import React from 'react'
-import { columns, users, empty } from "./sample-data";
+// import { columns, users, empty } from "./sample-data";
 import { Chip, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip, User } from '@nextui-org/react';
 import { EyeDropperIcon, EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,14 @@ import { ConfirmBox } from '../../../common/components/ConfirmBox';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+const columns = [
+    {name: "AUTHOR", uid: "author"},
+    {name: "DATE", uid: "modificationDate"},
+    {name: "STATUS", uid: "active"},
+    {name: "VERSION", uid: "version"},
+    {name: "ACTIONS", uid: "actions"},
+];
+
 
 export const CurriculumTable = () => {
 
@@ -21,7 +29,6 @@ export const CurriculumTable = () => {
     const { isLoading, error } = useSelector(state => state.resumees)
     const dispatch = useDispatch()
     const navigate = useNavigate();
-
     const {
         isOpen: isModalOpen,
         modalConfig,
@@ -48,13 +55,18 @@ export const CurriculumTable = () => {
         navigate('curriculum/' + id)
     }
 
+    const onEditResumee = (id) => {
+        navigate('curriculum/' + id + '/edit')
+    }
+
     const renderCell = useCallback((resumee, columnKey) => {
 
         const cellValue = resumee[columnKey];
         switch (columnKey) {
             case "author":
-                const imageUrl = cellValue.avatar?.url ? `http://localhost:1337${cellValue.avatar.url}` : null
-                const userName = cellValue.first_name ? cellValue.first_name + " " + cellValue.last_name : cellValue.email
+                
+                const imageUrl = cellValue.avatar?.url ? `http://localhost:1337${cellValue.avatar?.url}` : null
+                const userName = cellValue.firstName ? cellValue.firstName + " " + cellValue.lastName : cellValue.email
                 return (
                     <User
                         avatarProps={{ radius: "xl", src: imageUrl}}
@@ -64,7 +76,7 @@ export const CurriculumTable = () => {
                         {cellValue.id}
                     </User>
                 );
-            case "modification_date":
+            case "modificationDate":
                 return (
                     <div className="flex flex-col">
                         <p className="font-bold text-tiny capitalize">{cellValue}</p>
@@ -88,17 +100,17 @@ export const CurriculumTable = () => {
                     <div className="relative flex items-center justify-center gap-3">
                         <Tooltip content="Details">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <EyeIcon className="size-4" onClick={() => onShowResumee(resumee.id)} />
+                                <EyeIcon className="size-6 hover:opacity-50" onClick={() => onShowResumee(resumee.id)} />
                             </span>
                         </Tooltip>
                         <Tooltip content="Edit resumee">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <PencilIcon className="size-4" />
+                                <PencilIcon className="size-6" onClick={() => onEditResumee(resumee.id)}/>
                             </span>
                         </Tooltip>
                         <Tooltip color="danger" content="Delete resumee">
                             <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                                <TrashIcon className="size-4" onClick={() => handleDelete(resumee.id)}/>
+                                <TrashIcon className="size-6" onClick={() => handleDelete(resumee.id)}/>
                             </span>
                         </Tooltip>
                     </div>

@@ -22,6 +22,7 @@ export const certificationSlice = createSlice({
     reducers: {
         setAllCertifications: certificationAdapter.setAll,
         addCertification: certificationAdapter.addOne,
+        addManyCertifications: certificationAdapter.addMany,
         removeManyCertifications: certificationAdapter.removeMany,
         updateCertification: certificationAdapter.updateOne,
         deleteCertification: certificationAdapter.removeOne,
@@ -40,6 +41,7 @@ export const certificationSlice = createSlice({
 
 export const { 
     addCertification, 
+    addManyCertifications,
     deleteCertification, 
     updateCertification, 
     selectCertification, 

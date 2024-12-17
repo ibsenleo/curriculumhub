@@ -21,7 +21,7 @@ export const store = configureStore({
         resumees: resumeeSlice.reducer,
         educations: educationSlice.reducer,
         expertise: expertiseSlice.reducer,
-        certificatons: certificationSlice.reducer,
+        certifications: certificationSlice.reducer,
         experiences: experienceSlice.reducer,
         skills:skillSlice.reducer,
         authors: authorSlice.reducer,

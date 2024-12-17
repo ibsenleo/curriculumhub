@@ -22,6 +22,7 @@ export const experienceSlice = createSlice({
     reducers: {
         setAllExperiences: experienceAdapter.setAll,
         addExperience: experienceAdapter.addOne,
+        addManyExperiences: experienceAdapter.addMany,
         removeManyExperiences: experienceAdapter.removeMany,
         updateExperience: experienceAdapter.updateOne,
         deleteExperience: experienceAdapter.removeOne,
@@ -40,6 +41,7 @@ export const experienceSlice = createSlice({
 
 export const { 
     addExperience, 
+    addManyExperiences,
     deleteExperience, 
     updateExperience, 
     selectExperience, 
