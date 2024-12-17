@@ -6,9 +6,42 @@ import { useForm } from '../../../../hooks/useForm';
 
 export const EducationForm = ({ onSubmit, onCancel = () => { }, initialData = {} }) => {
 
+    const validationRules = {
+        // nombre: {
+        //     required: true,
+        //     minLength: 2,
+        //     maxLength: 50
+        // },
+        // email: {
+        //     required: true,
+        //     pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        //     message: 'Email inválido'
+        // },
+        // edad: {
+        //     custom: (value) => {
+        //         return (value < 18) ? 'Debes ser mayor de edad' : null;
+        //     }
+        // }
+        degree: {
+            required: true,
+            minLength: 3
+        },
+        institution: {
+            required: true
+        },
+        startYear: {
+            required: true,
+            dateCompare: {
+                field: 'endYear',  
+                type: 'before',    
+                message: 'La fecha de inicio debe ser anterior a la fecha final'
+            }
+        },
+    };
 
     const {
         formState,
+        errors,
         onInputChange,
         onResetForm,
         isFormEmpty,
@@ -16,7 +49,8 @@ export const EducationForm = ({ onSubmit, onCancel = () => { }, initialData = {}
         institution,
         startYear,
         endYear,
-        description
+        description,
+        validateForm,
     } = useForm({
         degree: "",
         institution: "",
@@ -24,12 +58,18 @@ export const EducationForm = ({ onSubmit, onCancel = () => { }, initialData = {}
         endYear: "",
         description: "",
         ...initialData
-    })
+    }, validationRules)
 
     const onSubmitForm = (e) => {
         e.preventDefault();
-        onSubmit(formState)
-        onResetForm();
+        if (validateForm()) {
+            onSubmit(formState)
+            onResetForm();
+        } 
+        else {
+            console.log(errors);
+            
+        }
     }
 
     const onCancelForm = () => {
@@ -49,6 +89,8 @@ export const EducationForm = ({ onSubmit, onCancel = () => { }, initialData = {}
                             size="sm"
                             value={degree}
                             onChange={onInputChange}
+                            errorMessage={errors.degree}
+                            isInvalid={errors.degree}
                         />
 
                         <Input
@@ -58,6 +100,8 @@ export const EducationForm = ({ onSubmit, onCancel = () => { }, initialData = {}
                             size="sm"
                             value={institution}
                             onChange={onInputChange}
+                            errorMessage={errors.institution}
+                            isInvalid={errors.institution}
                         />
 
                         <DatePicker

@@ -15,6 +15,7 @@ import { useMemo } from 'react'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { EducationForm, EducationItem } from '../components/educations'
+import { useStaticData } from '../../../hooks/useStaticData'
 
 // const offices = [
 //     { id: 1, name: 'Spain/Barcelona', flag: 'es' },
@@ -29,7 +30,8 @@ import { EducationForm, EducationItem } from '../components/educations'
 
 export const CurriculumNewPage = () => {
     const auth = useSelector((state) => state.auth);
-    const offices = useSelector(selectAllOffices);
+    // const offices = useSelector(selectAllOffices);
+    const {offices} = useStaticData();
 
 
     const initialValue = {
