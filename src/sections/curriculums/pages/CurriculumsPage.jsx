@@ -7,11 +7,12 @@ import { fetchResumeesThunk, selectResumeeTotal } from '../../../store/resumee'
 import { selectOfficesTotal } from '../../../store/staticData/staticDataSlice'
 import { fetchAndSetOffices } from '../../../store/staticData/staticDataThunks'
 import { CurriculumTable } from '../components/CurriculumTable'
+import { useStaticData } from '../../../hooks/useStaticData'
 
 export const CurriculumsPage = () => {
   const navigate = useNavigate();
+  const { offices } = useStaticData();
   const resumeesLoaded = useSelector(selectResumeeTotal) > 0;
-  const officesLoaded = useSelector(selectOfficesTotal) > 0;
   
   const dispatch = useDispatch();
   const onNewCurriculum = () => {
@@ -19,10 +20,7 @@ export const CurriculumsPage = () => {
   }
 
   useEffect(() => {
-
     if(!resumeesLoaded) dispatch(fetchResumeesThunk())
-    if(!officesLoaded) dispatch(fetchAndSetOffices())
-
   }, [])
   
 
